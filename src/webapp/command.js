@@ -1,6 +1,6 @@
-import { TodoList } from "./classes.js";
+import { TodoList, TodoItem } from "./classes.js";
 
-class Command {
+export class Command {
     name;
     args;
     constructor(name, args) {
@@ -9,12 +9,12 @@ class Command {
     }
 }
 
-const Commands = {
+export const Commands = {
     ADD: "add",
     DELETE: "delete",
 }
 
-const CommandExecutor = {
+export const CommandExecutor = {
     execute(command) {
         const todoList = TodoList.getInstance();
         switch (command.name) {
@@ -29,7 +29,8 @@ const CommandExecutor = {
                 }
                 break;
             case Commands.DELETE:
-                
+                const [textToDelete] = command.args;
+                todoList.delete(new TodoItem(textToDelete));
                 break;
             default:
                 throw new Error("Command not found");
