@@ -2,6 +2,7 @@ import { CommandExecutor } from "./webapp/command.js";
 import { Command, Commands } from "./webapp/command.js";
 import { TodoList } from "./webapp/classes.js";
 import { LocalStorage } from "./webapp/storage.js";
+import { renderList } from "./webapp/render.js";
 
 globalThis.DOM = {
     todoList: null,
@@ -10,26 +11,6 @@ globalThis.DOM = {
 };
 
 const DOM = globalThis.DOM;
-
-function renderLst() {
-    DOM.todoList.innerHTML = "";
-
-    // const todoList = TodoList.getInstance();
-    // const items = [...todoList.items];
-
-    // DOM.todoList.innerHTML = items.map((item) => {
-    //     return `<li>${item.text} <button class="delete-btn">Delete</button></li>`;
-    // }).join("");
-
-    const todoList = TodoList.getInstance();
-    for (const todo of todoList.items) {
-        const listItem = document.createElement("li");
-        listItem.classList.add("todo-item");
-        listItem.innerHTML = `${todo.text} <button class="delete-btn">Delete</button>`;
-        listItem.dataset.text = todo.text;
-        DOM.todoList.appendChild(listItem);
-    }
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     DOM.todoList = document.getElementById("todo-list");
@@ -53,8 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM loaded");
-    TodoList.getInstance().addObserver(renderLst);
+    TodoList.getInstance().addObserver(renderList);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -62,16 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-    if(event.ctrlKey && event.key === "p") {
+    if (event.ctrlKey && event.key === "p") {
         event.preventDefault();
-        
+
         const cmd = new Command(Commands.ADD);
 
         CommandExecutor.execute(cmd);
     }
-    if(event.ctrlKey && event.key === "z") {
+    if (event.ctrlKey && event.key === "z") {
         event.preventDefault();
-        
+
         const cmd = new Command(Commands.UNDO);
 
         CommandExecutor.execute(cmd);

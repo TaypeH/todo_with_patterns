@@ -24,22 +24,27 @@ export class TodoList { // canditate for Singleton
 
     // Singleton
     static instance = null;
+
     static {
         this.instance = new TodoList();
     }
-    static getInstance() { return this.instance; }
+
+    static getInstance() {
+        return this.instance;
+    }
 
     // List behavior
     add(item) {
-        const todoExists = [...this.#data].some(t => t.equals(item));
-
-        if (!todoExists) {
+        if (!this.isExist(item)) {
             this.#data.add(item);
             this.notify();
         }
     }
+    isExist(item) {
+        return [...this.#data].some(t => t.equals(item));
+    }
     delete(item) {
-        const todoToDelete = [...this.#data].find(t => t.equals(item));
+        const todoToDelete = this.find(item);
         this.#data.delete(todoToDelete);
         this.notify();
     }
