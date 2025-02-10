@@ -1,16 +1,10 @@
+import "./webapp/global.js";
+
 import { CommandExecutor } from "./webapp/command.js";
 import { Command, Commands } from "./webapp/command.js";
 import { TodoList } from "./webapp/classes.js";
 import { LocalStorage } from "./webapp/storage.js";
 import { renderList } from "./webapp/render.js";
-
-globalThis.DOM = {
-    todoList: null,
-    addBtn: null,
-    todoInput: null,
-};
-
-const DOM = globalThis.DOM;
 
 document.addEventListener("DOMContentLoaded", () => {
     DOM.todoList = document.getElementById("todo-list");
